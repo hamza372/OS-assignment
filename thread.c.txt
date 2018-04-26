@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<pthread.h>
+
+void *sumF(void *arg);
+
+int total_sum = 0;
+int t_no = 0;
+int main()
+{
+        void *status = 0;
+	void *returnVal = 0;
+        int array_of_numbers[1000];
+        for(int i=0;i<1000;i++)
+	{
+		array_of_numbers[i] = i;
+                //printf("i = %d",i);
+        }
+
+ 	pthread_t thread[10];
+        int sum = 0;
+        
+	for(int i=0;i<10;i++)
+	{
+		pthread_create(&thread[i],NULL,sumF,(void*)NULL);
+	}
+	
+	for(int i=0;i<10;i++)
+	{
+		pthread_join(thread[i],NULL);
+	}
+        
+	printf("sum  = %d",total_sum);
+		
+
+	return 0;
+}
+
+void * sumF(void * arg)
+{
+        int start = t_no;
+	t_no++;
+        start*=100;
+        int limit = start+100;
+        int sum = 0;
+	for(int i=start;i<limit;i++)
+	{
+		sum+=i;
+                
+        }
+        total_sum +=sum;
+        //printf("sum = %d",sum);
+ 	//printf("helllo\n");
+	
+}
+linux sa bahir nikalne ka liya ap ko send kiya
